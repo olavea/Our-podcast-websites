@@ -1,0 +1,83 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+interface Episode {
+  slug: string;
+  title: string;
+  description: string;
+  embed_html: string;
+}
+
+interface EpisodeData {
+  id: string;
+  type: string;
+  attributes: Episode;
+}
+
+interface Response {
+  data: EpisodeData[];
+  meta: {
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+  };
+}
+
+export async function getStaticPaths() {
+  const pageSize = 50;
+  const status = "published";
+
+  const meta: { currentPage: number; totalPages: number } = {
+    currentPage: 1,
+    totalPages: -1,
+  };
+
+  const episodeData: EpisodeData[] = [];
+
+  do {
+    const response: Response = await fetch(
+      `https://api.transistor.fm/v1/episodes?status=${status}&pagination[per]=${pageSize}&pagination[page]=${meta.currentPage}`,
+      {
+        method: "GET",
+        headers: {
+          "x-api-key": import.meta.env.TRANSISTOR_API_KEY,
+        },
+      }
+    ).then((response) => response.json());
+
+    episodeData.push(...response.data);
+
+    meta.currentPage = response.meta.currentPage + 1;
+    meta.totalPages = response.meta.totalPages;
+  } while (meta.currentPage <= meta.totalPages);
+
+  const pages = episodeData.map((episode) => {
+    return {
+      params: { slug: episode.attributes.slug },
+      props: { episode: episode.attributes },
+    };
+  });
+
+  console.log(pages.length);
+
+  return pages;
+}
+
+const { episode } = Astro.props;
+---
+
+<Layout title="Our podcast websites">
+  <main>
+    <header>
+      <h1>{episode.title}</h1>
+    </header>
+
+    <div set:html={episode.embed_html} />
+
+    <hr />
+
+    <div set:html={episode.description} />
+
+    <hr />
+  </main>
+</Layout>
