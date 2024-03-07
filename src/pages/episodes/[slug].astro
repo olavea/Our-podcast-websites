@@ -1,55 +1,9 @@
 ---
+import { fetchEpisodes } from "../../data";
 import Layout from "../../layouts/Layout.astro";
 
-interface Episode {
-  slug: string;
-  title: string;
-  description: string;
-  embed_html: string;
-}
-
-interface EpisodeData {
-  id: string;
-  type: string;
-  attributes: Episode;
-}
-
-interface Response {
-  data: EpisodeData[];
-  meta: {
-    totalCount: number;
-    totalPages: number;
-    currentPage: number;
-  };
-}
-
 export async function getStaticPaths() {
-  const pageSize = 50;
-  const status = "published";
-
-  const meta: { currentPage: number; totalPages: number } = {
-    currentPage: 1,
-    totalPages: -1,
-  };
-
-  const episodeData: EpisodeData[] = [];
-
-  do {
-    const response: Response = await fetch(
-      `https://api.transistor.fm/v1/episodes?status=${status}&pagination[per]=${pageSize}&pagination[page]=${meta.currentPage}`,
-      {
-        method: "GET",
-        headers: {
-          "x-api-key": import.meta.env.TRANSISTOR_API_KEY,
-        },
-      }
-    ).then((response) => response.json());
-
-    episodeData.push(...response.data);
-
-    meta.currentPage = response.meta.currentPage + 1;
-    meta.totalPages = response.meta.totalPages;
-  } while (import.meta.env.PROD && meta.currentPage <= meta.totalPages);
+  const episodeData = await fetchEpisodes();
 
   const pages = episodeData.map((episode) => {
     return {
@@ -57,8 +11,6 @@ export async function getStaticPaths() {
       props: { episode: episode.attributes },
     };
   });
-
-  console.log(pages.length);
 
   return pages;
 }
