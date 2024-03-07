@@ -1,59 +1,15 @@
 ---
+import { fetchEpisodes } from "../../data";
 import Layout from "../../layouts/Layout.astro";
 
-interface Episode {
-  slug: string;
-  title: string;
-  description: string;
-  embed_html: string;
-}
-
-interface EpisodeData {
-  id: string;
-  type: string;
-  attributes: Episode;
-}
-
-interface Response {
-  data: EpisodeData[];
-  meta: {
-    totalCount: number;
-    totalPages: number;
-    currentPage: number;
-  };
-}
-
 export async function getStaticPaths({ paginate }) {
-  const pageSize = 50;
-  const status = "published";
+  const episodeData = await fetchEpisodes();
 
-  const meta: { currentPage: number; totalPages: number } = {
-    currentPage: 1,
-    totalPages: -1,
-  };
+  const episodes = episodeData.map((data) => {
+    return data.attributes;
+  });
 
-  const episodeData: EpisodeData[] = [];
-
-  do {
-    const response: Response = await fetch(
-      `https://api.transistor.fm/v1/episodes?status=${status}&pagination[per]=${pageSize}&pagination[page]=${meta.currentPage}`,
-      {
-        method: "GET",
-        headers: {
-          "x-api-key": import.meta.env.TRANSISTOR_API_KEY,
-        },
-      }
-    ).then((response) => response.json());
-
-    episodeData.push(...response.data);
-
-    meta.currentPage = response.meta.currentPage + 1;
-    meta.totalPages = response.meta.totalPages;
-  } while (import.meta.env.PROD && meta.currentPage <= meta.totalPages);
-
-  const pages = paginate(episodeData, { pageSize: 10 });
-
-  console.log(JSON.stringify(pages, null, 2));
+  const pages = paginate(episodes, { pageSize: 10 });
 
   return pages;
 }
@@ -64,15 +20,13 @@ const { page } = Astro.props;
 <Layout title="Our podcast websites">
   <main>
     {
-      page.data.map((episodeData) => {
+      page.data.map((episode) => {
         return (
           <article>
             <h2>
-              <a href={`/episodes/${episodeData.attributes.slug}`}>
-                {episodeData.attributes.title}
-              </a>
+              <a href={`/episodes/${episode.slug}`}>{episode.title}</a>
             </h2>
-            <div set:html={episodeData.attributes.description} />
+            <div set:html={episode.description} />
           </article>
         );
       })
