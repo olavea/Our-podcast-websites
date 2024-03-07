@@ -23,7 +23,7 @@ interface Response {
   };
 }
 
-export async function getStaticPaths() {
+export async function getStaticPaths({ paginate }) {
   const pageSize = 50;
   const status = "published";
 
@@ -51,33 +51,42 @@ export async function getStaticPaths() {
     meta.totalPages = response.meta.totalPages;
   } while (import.meta.env.PROD && meta.currentPage <= meta.totalPages);
 
-  const pages = episodeData.map((episode) => {
-    return {
-      params: { slug: episode.attributes.slug },
-      props: { episode: episode.attributes },
-    };
-  });
+  const pages = paginate(episodeData, { pageSize: 10 });
 
-  console.log(pages.length);
+  console.log(JSON.stringify(pages, null, 2));
 
   return pages;
 }
 
-const { episode } = Astro.props;
+const { page } = Astro.props;
 ---
 
 <Layout title="Our podcast websites">
   <main>
-    <header>
-      <h1>{episode.title}</h1>
-    </header>
+    {
+      page.data.map((episodeData) => {
+        return (
+          <article>
+            <h2>
+              <a href={`/episodes/${episodeData.attributes.slug}`}>
+                {episodeData.attributes.title}
+              </a>
+            </h2>
+            <div set:html={episodeData.attributes.description} />
+          </article>
+        );
+      })
+    }
 
-    <div set:html={episode.embed_html} />
-
-    <hr />
-
-    <div set:html={episode.description} />
-
-    <hr />
+    <nav>
+      <ul>
+        <li>
+          <a href={page.url.prev}>Previous</a>
+        </li>
+        <li>
+          <a href={page.url.next}>Next</a>
+        </li>
+      </ul>
+    </nav>
   </main>
 </Layout>
