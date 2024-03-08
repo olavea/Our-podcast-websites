@@ -18,14 +18,28 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <slot />
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <ul>
+          <li><a href="/episodes">All Episodes</a></li>
+        </ul>
+      </nav>
+    </header>
   </body>
+  <slot />
 </html>
 
 <style is:global>
-  p {
+  nav {
+    margin-bottom: 0;
+  }
+
+  article {
     max-width: 60ch;
     text-wrap: pretty;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   header p {
