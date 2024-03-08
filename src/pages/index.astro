@@ -1,5 +1,11 @@
 ---
+import { fetchMostPopuplarEpisodes } from "../data";
 import Layout from "../layouts/Layout.astro";
+
+const episodeData = await fetchMostPopuplarEpisodes();
+const episodes = episodeData.map((data) => {
+  return data.attributes;
+});
 ---
 
 <Layout title="Our podcast websites">
@@ -38,6 +44,23 @@ import Layout from "../layouts/Layout.astro";
           </a>
         </p>
       </aside>
+    </section>
+    <section>
+      <header>
+        <h2>Most Popular Episodes</h2>
+      </header>
+      {
+        episodes.map((episode) => {
+          return (
+            <article>
+              <h2>
+                <a href={`/episodes/${episode.slug}`}>{episode.title}</a>
+              </h2>
+              <div set:html={episode.description} />
+            </article>
+          );
+        })
+      }
     </section>
   </main>
 </Layout>
