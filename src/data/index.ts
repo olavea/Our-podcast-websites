@@ -24,7 +24,6 @@ interface TransistorEpisodeResponse {
 
 const TRANSISTOR_API_KEY = import.meta.env.TRANSISTOR_API_KEY;
 const TRANSISTOR_SHOW_ID = import.meta.env.TRANSISTOR_SHOW_ID;
-const IS_DEV = import.meta.env.DEV;
 const TODAY = new Date();
 const START_DATE = sub(TODAY, { weeks: 53 });
 const END_DATE = sub(TODAY, { weeks: 1 });
@@ -33,8 +32,7 @@ export async function fetchEpisodes(
   apiKey = TRANSISTOR_API_KEY,
   showId = TRANSISTOR_SHOW_ID,
   status = "published",
-  pageSize = 50,
-  fetchAll = !IS_DEV
+  pageSize = 50
 ) {
   let meta = {
     currentPage: 1,
@@ -57,10 +55,10 @@ export async function fetchEpisodes(
     episodeData.push(...response.data);
 
     meta = {
-      currentPage: response.meta.currentPage,
+      currentPage: response.meta.currentPage + 1,
       totalPages: response.meta.totalPages,
     };
-  } while (fetchAll && meta.currentPage <= meta.totalPages);
+  } while (meta.currentPage <= meta.totalPages);
 
   console.log("Fetched", episodeData.length, "episodes");
 
