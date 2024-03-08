@@ -96,6 +96,12 @@ export async function fetchEpisodeAnalytics(
     }
   ).then((response) => response.json());
 
+  console.log(
+    "FETCHING ANALYTICS",
+    response.data.attributes.episodes.length,
+    "episodes"
+  );
+
   const analytics = response.data.attributes.episodes.map((episode: any) => {
     episode.totalDownloads = episode.downloads.reduce(
       (acc: number, day: any) => acc + day.downloads,
