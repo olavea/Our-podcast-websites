@@ -31,7 +31,7 @@ const TODAY = new Date();
 const START_DATE = sub(TODAY, { weeks: 53 });
 const END_DATE = sub(TODAY, { weeks: 1 });
 
-async function localCache(url, apiKey) {
+async function cachedFetch(url, apiKey) {
   const slugified = createHash("sha256").update(url).digest("hex");
   const cacheDir = join(process.cwd(), ".cache");
   if (!existsSync(cacheDir)) {
@@ -67,7 +67,7 @@ export async function fetchEpisodes(
   const episodeData: EpisodeData[] = [];
 
   do {
-    const response: TransistorEpisodeResponse = await localCache(
+    const response: TransistorEpisodeResponse = await cachedFetch(
       `https://api.transistor.fm/v1/episodes?show_id=${showId}&status=${status}&pagination[per]=${pageSize}&pagination[page]=${meta.currentPage}`,
       apiKey
     );
@@ -86,7 +86,7 @@ export async function fetchEpisodes(
 }
 
 export async function fetchEpisode(episodeId, apiKey = TRANSISTOR_API_KEY) {
-  const response = await localCache(
+  const response = await cachedFetch(
     `https://api.transistor.fm/v1/episodes/${episodeId}`,
     apiKey
   );
@@ -99,7 +99,7 @@ export async function fetchEpisodeAnalytics(
   startDate = format(START_DATE, "dd-MM-yyyy"),
   endDate = format(END_DATE, "dd-MM-yyyy")
 ) {
-  const response = await localCache(
+  const response = await cachedFetch(
     `https://api.transistor.fm/v1/analytics/${showId}/episodes?start_date=${startDate}&end_date=${endDate}`,
     apiKey
   );
