@@ -1,34 +1,34 @@
 ---
-import { fetchEpisodes } from "../../data";
+import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const episodeData = await fetchEpisodes();
+  const episodes = await getCollection("episodes");
 
-  const pages = episodeData.map((episode) => {
+  const pages = episodes.map((episode) => {
     return {
-      params: { slug: episode.attributes.slug },
-      props: { episode: episode.attributes },
+      params: { slug: episode.data.slug },
+      props: { entry: episode },
     };
   });
 
   return pages;
 }
 
-const { episode } = Astro.props;
+const { entry } = Astro.props;
 ---
 
 <Layout title="Our podcast websites">
   <main>
     <header>
-      <h1>{episode.title}</h1>
+      <h1>{entry.data.title}</h1>
     </header>
 
-    <div set:html={episode.embed_html} />
+    <div set:html={entry.data.embed_html} />
 
     <hr />
 
-    <div set:html={episode.description} />
+    <div set:html={entry.data.description} />
 
     <hr />
   </main>
