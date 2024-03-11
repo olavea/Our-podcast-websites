@@ -6,7 +6,4 @@ import netlify from "@astrojs/netlify";
 export default defineConfig({
   output: "static",
   adapter: netlify(),
-  experimental: {
-    contentCollectionCache: true,
-  },
 });
