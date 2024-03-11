@@ -1,11 +1,12 @@
 ---
-import { fetchMostPopuplarEpisodes } from "../data";
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
-const episodeData = await fetchMostPopuplarEpisodes();
-const episodes = episodeData.map((data) => {
-  return data.attributes;
-});
+const episodes = await getCollection("episodes");
+const sortedEpisodes = episodes.sort(
+  (a, b) => b.data.totalDownloads - a.data.totalDownloads
+);
+const mostPopular = sortedEpisodes.slice(0, 5);
 ---
 
 <Layout title="Our podcast website">
@@ -51,13 +52,13 @@ const episodes = episodeData.map((data) => {
         <h2>Most Popular Episodes</h2>
       </header>
       {
-        episodes.map((episode) => {
+        mostPopular.map((entry) => {
           return (
             <article>
               <h2>
-                <a href={`/episodes/${episode.slug}`}>{episode.title}</a>
+                <a href={`/episodes/${entry.data.slug}`}>{entry.data.title}</a>
               </h2>
-              <div set:html={episode.description} />
+              <div set:html={entry.data.description} />
             </article>
           );
         })
