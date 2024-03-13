@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import Episode from "../../components/Episode.astro";
 
 export async function getStaticPaths({ paginate }) {
   const episodes = await getCollection("episodes");
@@ -11,22 +12,13 @@ export async function getStaticPaths({ paginate }) {
 }
 
 const { page } = Astro.props;
-
-console.log(page);
 ---
 
 <Layout title="Our podcast websites">
   <main>
     {
       page.data.map((entry) => {
-        return (
-          <article>
-            <h2>
-              <a href={`/episodes/${entry.data.slug}`}>{entry.data.title}</a>
-            </h2>
-            <div set:html={entry.data.description} />
-          </article>
-        );
+        return <Episode {...entry.data} />;
       })
     }
 

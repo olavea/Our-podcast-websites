@@ -1,0 +1,30 @@
+---
+import { formatDuration, intervalToDuration } from "date-fns";
+
+const { slug, title, formatted_summary, number, duration } = Astro.props;
+
+const intervalDuration = intervalToDuration({
+  start: 0,
+  end: duration * 1000,
+});
+
+const formattedDuration = formatDuration({
+  hours: intervalDuration.hours,
+  minutes: intervalDuration.minutes,
+});
+
+const formattedSummary = formatted_summary.slice(0, 250);
+---
+
+<article>
+  <header>
+    <h2>
+      <a href={`/episodes/${slug}`}>{title}</a>
+    </h2>
+  </header>
+  <p set:html={formattedSummary} />
+  <menu><button class="bold">Play episode</button></menu>
+  <footer>
+    <span>Episode {number}</span><span>{formattedDuration}</span>
+  </footer>
+</article>

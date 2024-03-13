@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import Episode from "../components/Episode.astro";
 
 const episodes = await getCollection("episodes");
 const sortedEpisodes = episodes.sort(
@@ -53,14 +54,7 @@ const mostPopular = sortedEpisodes.slice(0, 5);
       </header>
       {
         mostPopular.map((entry) => {
-          return (
-            <article>
-              <h2>
-                <a href={`/episodes/${entry.data.slug}`}>{entry.data.title}</a>
-              </h2>
-              <div set:html={entry.data.description} />
-            </article>
-          );
+          return <Episode {...entry.data} />;
         })
       }
     </section>
