@@ -6,7 +6,7 @@ import { format, sub } from "date-fns";
 const TRANSISTOR_API_KEY = process.env.TRANSISTOR_API_KEY;
 const TRANSISTOR_SHOW_ID = process.env.TRANSISTOR_SHOW_ID;
 const TODAY = new Date();
-const START_DATE = sub(TODAY, { weeks: 2 });
+const START_DATE = sub(TODAY, { weeks: 53 });
 const END_DATE = sub(TODAY, { weeks: 1 });
 
 export async function fetchEpisodes(
