@@ -25,14 +25,53 @@ const formattedTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
     <title>{formattedTitle}</title>
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="/">Home</a>
-        <ul>
-          <li><a href="/episodes">All Episodes</a></li>
-        </ul>
-      </nav>
-    </header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/episodes">Episodes</a>
+      <a href="/about">About</a>
+      <a class="split" href="/subscribe">Subscribe</a>
+    </nav>
   </body>
   <slot />
 </html>
+
+<style>
+  nav {
+    max-width: 100ch;
+    margin: 0 auto;
+    padding: 2em;
+    display: flex;
+    gap: 1em;
+
+    a {
+      font-family: var(--cta-font-family);
+    }
+
+    .split {
+      margin-left: auto;
+    }
+
+    + * {
+      margin-top: 4em;
+    }
+  }
+</style>
+
+<style is:global>
+  body > main,
+  body > article {
+    max-width: 80ch;
+    margin: 0 auto;
+    padding: 1em;
+
+    > * + * {
+      margin-top: 4em;
+    }
+  }
+
+  body > main > section {
+    > * + * {
+      margin-top: 1.6em;
+    }
+  }
+</style>

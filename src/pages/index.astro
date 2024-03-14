@@ -20,3 +20,17 @@ const { SHOW_TITLE, SHOW_DESCRIPTION } = import.meta.env;
     </section>
   </main>
 </Layout>
+
+<style>
+  h1 {
+    font-size: 4em;
+    line-height: 1;
+
+    + p {
+      margin-top: 1em;
+      font-size: 1.3em;
+      max-width: 50ch;
+      text-wrap: balance;
+    }
+  }
+</style>

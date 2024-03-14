@@ -1,0 +1,27 @@
+---
+import Layout from "./Layout.astro";
+
+const { headings } = Astro.props;
+
+const title = headings[0]?.text || "Untitled";
+---
+
+<Layout title={title}>
+  <article>
+    <slot />
+  </article>
+</Layout>
+
+<style is:global>
+  h1 {
+    font-size: 4em;
+    line-height: 1;
+
+    + p {
+      margin-top: 1em;
+      font-size: 1.3em;
+      max-width: 50ch;
+      text-wrap: balance;
+    }
+  }
+</style>
