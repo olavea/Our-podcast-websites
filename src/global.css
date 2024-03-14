@@ -32,8 +32,40 @@ body {
   font-family: var(--default-font-family);
 }
 
+main {
+  max-width: 80ch;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4em;
+}
+
 a {
   color: inherit;
+}
+
+em {
+  font-style: normal;
+  color: var(--color-primary);
+}
+
+strong {
+  font-style: normal;
+  color: var(--text-inverted);
+  background-color: var(--paper-inverted);
+  padding: 0.4em 0.2em;
+  padding-bottom: 0;
+}
+
+h1 {
+  font-size: 4em;
+
+  + p {
+    margin-top: 1em;
+    font-size: 1.3em;
+    max-width: 50ch;
+    text-wrap: balance;
+  }
 }
 
 h1,
@@ -127,9 +159,4 @@ article {
     font-size: 0.8em;
     opacity: 0.8;
   }
-}
-
-main {
-  max-width: 80ch;
-  margin: 0 auto;
 }
