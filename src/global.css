@@ -79,7 +79,8 @@ h6 {
   }
 }
 
-button {
+button,
+a.button {
   font-family: var(--cta-font-family);
   font-size: 0.8rem;
   padding: 0.6em 1.8em;
@@ -89,6 +90,8 @@ button {
   border: var(--border);
   border-radius: var(--border-radius);
   transition: all 300ms ease-in-out;
+  line-height: 1.1;
+  text-decoration: none;
 
   &:hover {
     background-color: var(--paper-inverted);
