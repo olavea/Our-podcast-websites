@@ -1,0 +1,16 @@
+---
+import Episode from "./_EpisodeItem.astro";
+import { getCollection } from "astro:content";
+
+const episodes = await getCollection("episodes");
+const sortedEpisodes = episodes.sort(
+  (a, b) => b.data.totalDownloads - a.data.totalDownloads
+);
+const mostPopular = sortedEpisodes.slice(0, 5);
+---
+
+{
+  mostPopular.map((entry) => {
+    return <Episode {...entry.data} />;
+  })
+}

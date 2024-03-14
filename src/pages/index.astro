@@ -1,62 +1,22 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
-import Episode from "../components/Episode.astro";
+import PopularEpisodes from "./episodes/_PopularEpisodes.astro";
 
-const episodes = await getCollection("episodes");
-const sortedEpisodes = episodes.sort(
-  (a, b) => b.data.totalDownloads - a.data.totalDownloads
-);
-const mostPopular = sortedEpisodes.slice(0, 5);
+const { SHOW_TITLE, SHOW_DESCRIPTION } = import.meta.env;
 ---
 
-<Layout title="Our podcast website">
+<Layout>
   <main>
     <header>
-      <h1>Podcast Websites in Astro</h1>
-
-      <p>
-        We're building <mark>two podcast</mark> websites in public during the <a
-          href="https://www.twoweekbuild.com/">Two Week Build</a
-        > Challange put on by Amy Dutton (<a
-          href="https://twitter.com/selfteachme">@selfteachme</a
-        >).
-      </p>
+      <h1 set:html={SHOW_TITLE} />
+      <p set:html={SHOW_DESCRIPTION} />
     </header>
-    <section>
-      <aside>
-        <h2>Join us on YouTube</h2>
-        <p>We're streaming every week day for the duration of the challenge.</p>
-        <p>
-          <a
-            target="_blank"
-            href="https://www.youtube.com/playlist?list=PL9W-8hhRoLoM5qrPkHhzXOSVwVxV17Fs0"
-            ><em>Our YouTube Playlist ↗</em>
-          </a>
-        </p>
-      </aside>
-      <aside>
-        <h2>Follow the hashtag</h2>
-        <p>
-          For the latest chatter from all participants check out the hashtag.
-        </p>
-        <p>
-          <a href="https://twitter.com/hashtag/TwoWeekBuild"
-            ><em>#TwoWeekBuild ↗</em>
-          </a>
-        </p>
-      </aside>
-    </section>
-    <hr />
+
     <section>
       <header>
-        <h2>Most Popular Episodes</h2>
+        <h2>Popular Episodes</h2>
       </header>
-      {
-        mostPopular.map((entry) => {
-          return <Episode {...entry.data} />;
-        })
-      }
+      <PopularEpisodes count={5} />
     </section>
   </main>
 </Layout>

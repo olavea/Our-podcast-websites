@@ -1,5 +1,8 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import { formatDuration, intervalToDuration } from "date-fns";
+
+type Props = CollectionEntry<"episodes">["data"];
 
 const { slug, title, formatted_summary, number, duration } = Astro.props;
 

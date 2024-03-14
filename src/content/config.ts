@@ -8,7 +8,7 @@ const episodeCollection = defineCollection({
     number: z.number(),
     duration: z.number(),
     totalDownloads: z.number(),
-    formatted_summary: z.string().optional(),
+    formatted_summary: z.string(),
     description: z.string(),
     embed_html: z.string(),
   }),

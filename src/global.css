@@ -35,9 +35,16 @@ body {
 main {
   max-width: 80ch;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 4em;
+
+  > * + * {
+    margin-top: 4em;
+  }
+}
+
+section {
+  > * + * {
+    margin-top: 1.6em;
+  }
 }
 
 a {
@@ -137,10 +144,6 @@ article {
   border-radius: var(--border-radius);
 
   box-shadow: 0.3em 0.3em 0 0 var(--color-accent);
-
-  + article {
-    margin-top: 1.6rem;
-  }
 
   p {
     font-size: 0.8em;

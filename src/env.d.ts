@@ -6,6 +6,8 @@ interface ImportMetaEnv {
   readonly TRANSISTOR_SHOW_ID: string;
   readonly SITE_TITLE: string;
   readonly SITE_DESCRIPTION: string;
+  readonly SHOW_TITLE?: string;
+  readonly SHOW_DESCRIPTION?: string;
 }
 
 interface ImportMeta {
