@@ -5,8 +5,11 @@ import Episode from "../../components/Episode.astro";
 
 export async function getStaticPaths({ paginate }) {
   const episodes = await getCollection("episodes");
+  const sortedEpisodes = episodes.sort((a, b) => {
+    return b.data.number - a.data.number;
+  });
 
-  const pages = paginate(episodes, { pageSize: 10 });
+  const pages = paginate(sortedEpisodes, { pageSize: 10 });
 
   return pages;
 }
