@@ -24,10 +24,9 @@ const { entry } = Astro.props;
     <header>
       <h1>{entry.data.title}</h1>
     </header>
-
-    <div set:html={entry.data.embed_html} />
-
-    <hr />
+    <button class="bold" data-media-url={entry.data.media_url}
+      >Play episode</button
+    >
 
     <div set:html={entry.data.description} />
 

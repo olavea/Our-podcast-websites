@@ -1,5 +1,7 @@
 ---
 import "../global.css";
+import Player from "./_Player.astro";
+import { ViewTransitions } from "astro:transitions";
 
 const { SITE_TITLE } = import.meta.env;
 
@@ -22,6 +24,7 @@ const formattedTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎙️</text></svg>"
     />
     <meta name="generator" content={Astro.generator} />
+    <ViewTransitions />
     <title>{formattedTitle}</title>
   </head>
   <body>
@@ -31,47 +34,7 @@ const formattedTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
       <a href="/about">About</a>
       <a class="split" href="/subscribe">Subscribe</a>
     </nav>
+    <slot />
+    <Player />
   </body>
-  <slot />
 </html>
-
-<style>
-  nav {
-    max-width: 100ch;
-    margin: 0 auto;
-    padding: 2em;
-    display: flex;
-    gap: 1em;
-
-    a {
-      font-family: var(--cta-font-family);
-    }
-
-    .split {
-      margin-left: auto;
-    }
-
-    + * {
-      margin-top: 4em;
-    }
-  }
-</style>
-
-<style is:global>
-  body > main,
-  body > article {
-    max-width: 80ch;
-    margin: 0 auto;
-    padding: 1em;
-
-    > * + * {
-      margin-top: 4em;
-    }
-  }
-
-  body > main > section {
-    > * + * {
-      margin-top: 1.6em;
-    }
-  }
-</style>

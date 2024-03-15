@@ -4,7 +4,8 @@ import { formatDuration, intervalToDuration } from "date-fns";
 
 type Props = CollectionEntry<"episodes">["data"];
 
-const { slug, title, formatted_summary, number, duration } = Astro.props;
+const { slug, title, formatted_summary, number, duration, media_url } =
+  Astro.props;
 
 const intervalDuration = intervalToDuration({
   start: 0,
@@ -17,6 +18,8 @@ const formattedDuration = formatDuration({
 });
 
 const formattedSummary = formatted_summary.slice(0, 250);
+
+console.log(media_url, title);
 ---
 
 <article>
@@ -26,7 +29,9 @@ const formattedSummary = formatted_summary.slice(0, 250);
     </h2>
   </header>
   <p set:html={formattedSummary} />
-  <menu><button class="bold">Play episode</button></menu>
+  <menu>
+    <button class="bold" data-media-url={media_url}>Play episode</button>
+  </menu>
   <footer>
     <span>Episode {number}</span><span>{formattedDuration}</span>
   </footer>

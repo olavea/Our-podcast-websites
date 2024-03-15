@@ -108,3 +108,44 @@ a.button {
     }
   }
 }
+
+body {
+  padding-bottom: 15rem;
+}
+
+nav {
+  max-width: 100ch;
+  margin: 0 auto;
+  padding: 2em;
+  display: flex;
+  gap: 1em;
+
+  a {
+    font-family: var(--cta-font-family);
+  }
+
+  .split {
+    margin-left: auto;
+  }
+
+  + * {
+    margin-top: 4em;
+  }
+}
+
+body > main,
+body > article {
+  max-width: 80ch;
+  margin: 0 auto;
+  padding: 1em;
+
+  > * + * {
+    margin-top: 4em;
+  }
+}
+
+body > main > section {
+  > * + * {
+    margin-top: 1.6em;
+  }
+}

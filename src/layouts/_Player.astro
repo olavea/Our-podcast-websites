@@ -1,0 +1,72 @@
+---
+
+---
+
+<aside class="player" transition:persist>
+  <audio controls></audio>
+</aside>
+
+<script is:inline>
+  const audio = document.querySelector("audio");
+
+  const updateAllButtons = () => {
+    const buttons = document.querySelectorAll("[data-media-url]");
+    buttons.forEach((button) => {
+      const buttonMediaUrl = button.getAttribute("data-media-url");
+
+      if (buttonMediaUrl !== audio.src) {
+        button.textContent = "Play episode";
+      } else if (audio.paused) {
+        button.textContent = "Play episode";
+      } else {
+        button.textContent = "Pause episode";
+      }
+    });
+  };
+
+  const initAllButtons = () => {
+    const buttons = document.querySelectorAll("[data-media-url]");
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const buttonMediaUrl = button.getAttribute("data-media-url");
+
+        if (buttonMediaUrl !== audio.src) {
+          audio.src = buttonMediaUrl;
+          audio.play();
+        } else if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
+    });
+  };
+
+  document.addEventListener(
+    "astro:page-load",
+    () => {
+      audio.addEventListener("play", updateAllButtons);
+      audio.addEventListener("pause", updateAllButtons);
+      audio.addEventListener("ended", updateAllButtons);
+    },
+    { once: true }
+  );
+
+  document.addEventListener("astro:page-load", () => {
+    initAllButtons();
+    updateAllButtons();
+  });
+</script>
+
+<style>
+  aside {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1em;
+    padding-bottom: 5em;
+    background: var(--paper-inverted);
+    text-align: center;
+  }
+</style>

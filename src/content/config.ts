@@ -5,6 +5,7 @@ const episodeCollection = defineCollection({
   schema: z.object({
     slug: z.string(),
     title: z.string(),
+    media_url: z.string(),
     number: z.number(),
     duration: z.number(),
     totalDownloads: z.number(),
