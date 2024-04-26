@@ -1,0 +1,27 @@
+---
+// npm install urlbox --save
+
+import Urlbox from "urlbox";
+
+
+const { Urlbox_Pub_Key } = import.meta.env;
+ const { Urlbox_Secret_Key } = import.meta.env;
+
+// Plugin your API key and secret
+const urlbox = Urlbox(Urlbox_Pub_Key, Urlbox_Secret_Key);
+
+// Set your options
+const options = {
+  url: "github.com",
+  thumb_width: 600,
+  format: "jpg",
+  quality: 80,
+};
+
+const imgUrl = urlbox.generateRenderLink(options);
+// https://api.urlbox.io/v1/YOUR_API_KEY/TOKEN/jpg?url=github.com&thumb_width=600&quality=80
+
+// Now set it as the src in an img tag to render the screenshot
+---
+
+<img src={imgUrl} />;
