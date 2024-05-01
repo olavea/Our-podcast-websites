@@ -8,6 +8,8 @@ interface ImportMetaEnv {
   readonly SITE_DESCRIPTION: string;
   readonly SHOW_TITLE?: string;
   readonly SHOW_DESCRIPTION?: string;
+  readonly URLBOX_PUB_KEY?: string;
+  readonly URLBOX_SECRET_KEY?: string;
 }
 
 interface ImportMeta {
