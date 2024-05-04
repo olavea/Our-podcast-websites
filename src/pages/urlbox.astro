@@ -1,0 +1,34 @@
+---
+
+---
+<head>
+    <title>APIs</title>
+</head>
+
+<body>
+    <h1>APIs</h1>
+    <p class="user"></p>
+    <script>
+        const endpoint = 'https://api.github.com/users/urlbox';
+        const userEl = document.querySelector('.user');
+
+        async function displayUser(username) {
+
+            const response = await fetch(endpoint);
+            const data = await response.json();
+
+            console.log(data);
+            console.log(data.name);
+            console.log(data.blog);
+
+
+        }
+
+
+        displayUser('urlbox')
+
+
+
+
+    </script>
+</body>
