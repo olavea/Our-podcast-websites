@@ -13,7 +13,9 @@
   "dependencies": {
     "@astrojs/netlify": "^5.1.3",
     "astro": "^4.5.2",
+    "crypto-js": "^4.2.0",
     "date-fns": "^3.3.1",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "urlbox": "^2.1.0"
   }
 }
